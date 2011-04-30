@@ -7,6 +7,6 @@ import android.content.Intent;
 public class ReminderReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		System.out.println("Got sms reply reminder.");
+		System.out.println("Got sms reply reminder. Timestamp: " + intent.getLongExtra(SmsIncomingReceiver.SMS_RECEIVED_TIMESTAMP, -1L));
 	}
 }

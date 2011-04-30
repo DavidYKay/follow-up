@@ -11,7 +11,7 @@ import android.telephony.SmsMessage;
 
 public class SmsIncomingReceiver extends BroadcastReceiver {
 	private static final int P_I_REQUEST_CODE = 240;
-	private static final String SMS_RECEIVED_TIMESTAMP = "SMS_RECEIVED_TIMESTAMP";
+	public static final String SMS_RECEIVED_TIMESTAMP = "SMS_RECEIVED_TIMESTAMP";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -56,9 +56,7 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	private Intent createAlarmIntent(Context context, String smsSource, long smsTS) {
         Intent alarmIntent = new Intent(context, ReminderReceiver.class);
         alarmIntent.setData(Uri.parse("http://reminders.followupapp.com/" + Uri.encode(smsSource)));
-        Bundle intentExtras = alarmIntent.getExtras();
-        intentExtras.putLong(SMS_RECEIVED_TIMESTAMP, smsTS);
-        alarmIntent.putExtras(intentExtras);
+        alarmIntent.putExtra(SMS_RECEIVED_TIMESTAMP, smsTS);
         return alarmIntent;
 	}
 }
