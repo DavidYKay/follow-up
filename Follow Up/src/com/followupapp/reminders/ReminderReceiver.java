@@ -18,11 +18,11 @@ public class ReminderReceiver extends BroadcastReceiver {
 	}
 	
 	private static void showReplyReminderNotification(Context context, String smsSource) {
-		Intent positiveIntent = new Intent(context, MainActivity.class);
+		Intent positiveIntent = new Intent(context, ReminderActivity.class);
 		positiveIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE, smsSource);
 		PendingIntent positivePendingIntent = PendingIntent.getActivity(context, P_I_NOTIFICATION_CODE, positiveIntent, 0);
 
-		Intent negativeIntent = new Intent(context, MainActivity.class);
+		Intent negativeIntent = new Intent(context, ReminderActivity.class);
 		negativeIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE, smsSource);
 //		PendingIntent negativePendingIntent = PendingIntent.getActivity(context, P_I_NOTIFICATION_CODE, negativeIntent, 0);
 		PendingIntent negativePendingIntent = null;
