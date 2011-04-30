@@ -27,9 +27,9 @@ public class ReminderReceiver extends BroadcastReceiver {
 //		PendingIntent negativePendingIntent = PendingIntent.getActivity(context, P_I_NOTIFICATION_CODE, negativeIntent, 0);
 		PendingIntent negativePendingIntent = null;
 
-		String tickerText = "There's a text message to which you may want to reply.";
+		String tickerText = "Reminder: reply to " + smsSource;
 		String from = "Follow up";
-		String message = "There's a text message to which you may want to reply.";
+		String message = "Reminder: reply to " + smsSource;
 		showNotification(context, positivePendingIntent, negativePendingIntent, tickerText, from, message, smsSource);
 	}
 
