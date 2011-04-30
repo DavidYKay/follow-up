@@ -7,4 +7,14 @@ public class SmsOutgoingObserver extends ContentObserver {
 	public SmsOutgoingObserver(Handler handler) {
 		super(handler);
 	}
+
+	@Override
+	public boolean deliverSelfNotifications() {
+		return super.deliverSelfNotifications();
+	}
+
+	@Override
+	public void onChange(boolean selfChange) {
+		super.onChange(selfChange);
+	}
 }
