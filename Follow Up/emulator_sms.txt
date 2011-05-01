@@ -1,2 +1,3 @@
 telnet localhost 5554
-sms send +12223334444 Dinner tonight? East Village?
+sms send +12223334444 Let's get dinner tonight. I need some advice what to do with Libya!
+sms send +12223334445 Drinks tonight? Obama made fun of me. I'll tell you all about it.

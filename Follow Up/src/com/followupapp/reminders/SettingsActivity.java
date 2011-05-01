@@ -2,10 +2,12 @@ package com.followupapp.reminders;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
 
@@ -38,14 +40,17 @@ public class SettingsActivity extends PreferenceActivity {
         
         pc = (PreferenceCategory)rootPS.findPreference("messages_awaiting_reply");
 
-        p = new Preference(this);
-        p.setTitle("Prez Obama");
-        p.setSummary("Let's get dinner tonight. I need some advice what to do with Libya!");
-        pc.addPreference(p);
-
-        p = new Preference(this);
-        p.setTitle("Donald Trump");
-        p.setSummary("Drinks tonight? Obama made fun of me. I'll tell you all about it.");
-        pc.addPreference(p);
+        SharedPreferences prefsRead = PreferenceManager.getDefaultSharedPreferences(context);
+        String from;
+        String message;
+        int writtenMessagesCount = prefsRead.getInt(SmsIncomingReceiver.WRITTEN_MESSAGES_COUNT, 0);
+        for (int i = 0; i < writtenMessagesCount; i++) {
+        	from = prefsRead.getString(SmsIncomingReceiver.SMS_SOURCE_NAME + i, "");
+        	message = prefsRead.getString(SmsIncomingReceiver.SMS_MESSAGE + i, "");
+            p = new Preference(this);
+            p.setTitle(from);
+            p.setSummary(message);
+            pc.addPreference(p);
+        }
 	}
 }

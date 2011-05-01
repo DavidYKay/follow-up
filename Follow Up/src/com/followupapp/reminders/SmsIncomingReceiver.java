@@ -20,7 +20,9 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	public static final String SMS_RECEIVED_TIMESTAMP = "SMS_RECEIVED_TIMESTAMP";
 	public static final String SMS_SOURCE_NUMBER = "SMS_SOURCE_NUMBER";
 	public static final String SMS_SOURCE_NAME = "SMS_SOURCE_NAME";
+	public static final String SMS_MESSAGE = "SMS_MESSAGE";
 	private static final String IGNORE_UNKNOWNS = "contacts_only";
+	public static final String WRITTEN_MESSAGES_COUNT = "WRITTEN_MESSAGES_COUNT";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -51,8 +53,9 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	            projection = new String[] { ContactsContract.PhoneLookup.DISPLAY_NAME };
 	            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 	            boolean ignoreUnknowns = false;
-	            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-	            ignoreUnknowns = prefs.getBoolean(IGNORE_UNKNOWNS, ignoreUnknowns);
+	            SharedPreferences prefsRead = PreferenceManager.getDefaultSharedPreferences(context);
+	            SharedPreferences.Editor prefsWrite = prefsRead.edit();
+	            ignoreUnknowns = prefsRead.getBoolean(IGNORE_UNKNOWNS, ignoreUnknowns);
 	            if (cursor != null) {
 	                if (cursor.moveToFirst()) {
 	                	smsSourceName = cursor.getString(0);
@@ -71,7 +74,12 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	            	}
 	            	smsSourceName = smsSourceNumber;
 	            }
-	            alarmTime = smsTS + 15 * 1000;
+	            int writtenMessagesCount = prefsRead.getInt(WRITTEN_MESSAGES_COUNT, 0);
+	            prefsWrite.putString(SMS_SOURCE_NAME + writtenMessagesCount, smsSourceName);
+	            prefsWrite.putString(SMS_MESSAGE + writtenMessagesCount, message.getMessageBody());
+	            prefsWrite.putInt(WRITTEN_MESSAGES_COUNT, writtenMessagesCount + 1);
+	            prefsWrite.commit();
+	            alarmTime = smsTS + 30 * 1000;
 
 	            // Set reminder alarm. Requirements:
 	            //     One alarm per phone number, offset from the last message received from that number.
