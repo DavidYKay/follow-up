@@ -14,28 +14,32 @@ public class ReminderReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.d("sms reply", "Got reminder. Timestamp: " + intent.getLongExtra(SmsIncomingReceiver.SMS_RECEIVED_TIMESTAMP, -1L));
-		String smsSource = intent.getStringExtra(SmsIncomingReceiver.SMS_SOURCE);
-		showReplyReminderNotification(context, smsSource);
+		String smsSourceNumber = intent.getStringExtra(SmsIncomingReceiver.SMS_SOURCE_NUMBER);
+		String smsSourceName = intent.getStringExtra(SmsIncomingReceiver.SMS_SOURCE_NAME);
+		showReplyReminderNotification(context, smsSourceNumber, smsSourceName);
 	}
 	
-	private static void showReplyReminderNotification(Context context, String smsSource) {
+	private static void showReplyReminderNotification(Context context, String smsSourceNumber, String smsSourceName) {
 		Intent positiveIntent = new Intent(context, ReminderActivity.class);
-		positiveIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE, smsSource);
+		positiveIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NUMBER, smsSourceNumber);
+		positiveIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NAME, smsSourceName);
 		PendingIntent positivePendingIntent = PendingIntent.getActivity(context, P_I_NOTIFICATION_CODE, positiveIntent, 0);
 
 		Intent negativeIntent = new Intent(context, ReminderActivity.class);
-		negativeIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE, smsSource);
+		negativeIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NUMBER, smsSourceNumber);
+		negativeIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NAME, smsSourceName);
 //		PendingIntent negativePendingIntent = PendingIntent.getActivity(context, P_I_NOTIFICATION_CODE, negativeIntent, 0);
 		PendingIntent negativePendingIntent = null;
 
-		String tickerText = "Reminder: reply to " + smsSource;
+		String tickerText = "Reminder: reply to " + smsSourceName;
 		String from = "Follow up";
-		String message = "Reminder: reply to " + smsSource;
-		showNotification(context, positivePendingIntent, negativePendingIntent, tickerText, from, message, smsSource);
+		String message = "Reminder: reply to " + smsSourceName;
+		showNotification(context, positivePendingIntent, negativePendingIntent, tickerText, from, message, smsSourceNumber);
 	}
 
     protected static void showNotification(Context context, PendingIntent positiveIntent, PendingIntent negativeIntent, 
-    										String tickerText, CharSequence from, CharSequence message, String smsSource) {
+    										String tickerText, CharSequence from, CharSequence message, 
+    										String smsSourceNumber) {
         NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.notification_icon, tickerText, System.currentTimeMillis());
         notification.setLatestEventInfo(context, from, message, positiveIntent);
@@ -44,7 +48,7 @@ public class ReminderReceiver extends BroadcastReceiver {
         	notification.deleteIntent = negativeIntent;
     	}
     	notification.flags = notification.flags | Notification.FLAG_AUTO_CANCEL;
-	    int uniqueId = smsSource.hashCode();
+	    int uniqueId = smsSourceNumber.hashCode();
         nm.notify(uniqueId, notification); // unique ids allow for concurrent notifications
     }
 }
