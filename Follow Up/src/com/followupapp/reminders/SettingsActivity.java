@@ -26,7 +26,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
         		Intent intent = new Intent(context, ReminderActivity.class);
-        		intent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NUMBER, "+1339994444");
+        		intent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NUMBER, "+10000000000");
         		intent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NAME, "John Tester");
         		context.startActivity(intent);
                 return true;
