@@ -5,7 +5,27 @@
 
     <CheckBoxPreference
         android:key="contacts_only"
-        android:title="Existing contacts only" 
+        android:title="Known contacts only" 
         android:summary="Ignore unknown phone numbers"/>
+    
+    <EditTextPreference
+        android:key="first_delay"
+        android:title="First reminder timing" 
+        android:summary="Set the timing for the first reminder"/>
+    
+    <EditTextPreference
+        android:key="second_delay"
+        android:title="Second reminder timing" 
+        android:summary="Set the timing for the second reminder"/>
+    
+    <EditTextPreference
+        android:key="third_delay"
+        android:title="Third reminder timing" 
+        android:summary="Set the timing for the third reminder"/>
+    
+    <Preference
+        android:key="sample_reminder"
+        android:title="Sample reminder" 
+        android:summary="Displays a sample reminder."/>
     
 </PreferenceScreen>

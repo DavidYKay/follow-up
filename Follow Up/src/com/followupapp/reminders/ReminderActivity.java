@@ -31,11 +31,12 @@ public class ReminderActivity extends Activity {
 			}
         });
 
-        TextView ignoreDescription = (TextView)findViewById(R.id.ignoreDescription);
-        ignoreDescription.setText("If you don't want to get any more reminders for text messages received from " + smsSourceName + ", just ignore it.");
+        TextView ignoreFutureOnesDescription = (TextView)findViewById(R.id.ignoreFutureOnesDescription);
+        ignoreFutureOnesDescription.setText("If you don't want to get any more reminders for text messages from " + smsSourceName + ", just ignore them.");
 
-        Button ignoreButton = (Button)findViewById(R.id.ignoreButton);
-        ignoreButton.setOnClickListener(new OnClickListener() {
+        Button ignoreFutureOnesButton = (Button)findViewById(R.id.ignoreFutureOnesButton);
+        ignoreFutureOnesButton.setText("Ignore " + smsSourceName);
+        ignoreFutureOnesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 			}
