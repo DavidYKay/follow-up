@@ -6,13 +6,14 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class ReminderReceiver extends BroadcastReceiver {
 	private static final int P_I_NOTIFICATION_CODE = 241;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		System.out.println("Got sms reply reminder. Timestamp: " + intent.getLongExtra(SmsIncomingReceiver.SMS_RECEIVED_TIMESTAMP, -1L));
+		Log.d("sms reply", "Got reminder. Timestamp: " + intent.getLongExtra(SmsIncomingReceiver.SMS_RECEIVED_TIMESTAMP, -1L));
 		String smsSource = intent.getStringExtra(SmsIncomingReceiver.SMS_SOURCE);
 		showReplyReminderNotification(context, smsSource);
 	}

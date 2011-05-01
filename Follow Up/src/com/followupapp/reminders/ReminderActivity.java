@@ -1,6 +1,8 @@
 package com.followupapp.reminders;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,10 +15,20 @@ public class ReminderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reminder);
         
-        String smsSource = getIntent().getStringExtra(SmsIncomingReceiver.SMS_SOURCE);
+        final String smsSource = getIntent().getStringExtra(SmsIncomingReceiver.SMS_SOURCE);
         
         TextView replyDescription = (TextView)findViewById(R.id.replyDescription);
         replyDescription.setText("It looks like you haven't replied to the text message recently received from " + smsSource + ".");
+
+        Button replyButton = (Button)findViewById(R.id.replyButton);
+        replyButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + Uri.encode(smsSource)));
+				ReminderActivity.this.startActivity(intent);
+				finish();
+			}
+        });
 
         TextView ignoreDescription = (TextView)findViewById(R.id.ignoreDescription);
         ignoreDescription.setText("If you don't want to get any more reminders for text messages received from " + smsSource + ", just ignore it.");

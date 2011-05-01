@@ -9,9 +9,11 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 public class SmsIncomingReceiver extends BroadcastReceiver {
 	private static final int P_I_REQUEST_CODE = 240;
@@ -64,16 +66,21 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	            		continue;
 	            	}
 	            }
-	            alarmTime = smsTS + 30 * 1000;
+	            alarmTime = smsTS + 15 * 1000;
 
 	            // Set reminder alarm
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				PendingIntent pendingIntent = createPendingIntent(context, smsSource, smsTS);
 		        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
-		        System.out.println("Set sms reply reminder. SMS source: " + smsSource + ". SMS reminder timestamp: " + smsTS);
+		        Log.d("sms reply", "Set reminder. SMS source: " + smsSource + ". SMS reminder timestamp: " + smsTS);
 
 				// Add a SmsOutgoingObserver
-				
+				SmsOutgoingObserver smsOutgoingObserver = new SmsOutgoingObserver(new Handler());
+//				context.getContentResolver().registerContentObserver(Uri.parse("content://sms"), true, smsOutgoingObserver);
+//				context.getContentResolver().registerContentObserver(Uri.parse("content://sms/sent"), true, smsOutgoingObserver);
+//				context.getContentResolver().registerContentObserver(Uri.parse("content://sms/inbox"), true, smsOutgoingObserver);
+//				context.getContentResolver().registerContentObserver(Uri.parse("content://sms/outbox"), true, smsOutgoingObserver);
+				context.getContentResolver().registerContentObserver(Uri.parse("content://sms/status"), true, smsOutgoingObserver);
 	        }
 		}
 	}
