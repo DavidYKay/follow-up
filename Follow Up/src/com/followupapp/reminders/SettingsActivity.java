@@ -1,13 +1,14 @@
 package com.followupapp.reminders;
 
-import android.app.Activity;
+import android.os.Bundle;
+import android.preference.PreferenceActivity;
 
-/**
- * Activity for presenting the application settings to the user.
- * 
- * @author dk
- *
- */
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends PreferenceActivity {
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setTitle("Follow up settings");
+        addPreferencesFromResource(R.xml.settings);
+	}
 }

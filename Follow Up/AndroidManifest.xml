@@ -12,7 +12,7 @@
                   android:label="Follow up reminder">
         </activity>
         <activity android:name="SettingsActivity"
-                  android:label="Follow up settings">
+                  android:label="Follow Up">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,4 +32,5 @@
 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 	<uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 </manifest>

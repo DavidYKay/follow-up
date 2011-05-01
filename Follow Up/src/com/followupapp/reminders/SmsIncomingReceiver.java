@@ -5,35 +5,65 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 
 public class SmsIncomingReceiver extends BroadcastReceiver {
 	private static final int P_I_REQUEST_CODE = 240;
 	public static final String SMS_RECEIVED_TIMESTAMP = "SMS_RECEIVED_TIMESTAMP";
 	public static final String SMS_SOURCE = "SMS_SOURCE";
+	private static final String IGNORE_UNKNOWNS = "IGNORE_UNKNOWNS";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		boolean reminderNeeded = true; // come up with the correct criteria
+		boolean reminderNeeded = true; // TODO: come up with the correct criteria
 		if (reminderNeeded) {
 			// Get SMS details
-			SmsMessage message;
-			String smsSource;
-			long alarmTime;
-			long smsTS = System.currentTimeMillis();
 	        Bundle extras = intent.getExtras();
 	        if (extras == null) {
 	            return;
 	        }
 	        
-	        Object[] pdus = (Object[]) extras.get("pdus");
+			SmsMessage message;
+			String smsSource;
+			long alarmTime;
+			long smsTS = System.currentTimeMillis();
+            Uri uri;
+            String[] projection;
+
+            Object[] pdus = (Object[]) extras.get("pdus");
 
 	        for (int i = 0; i < pdus.length; i++) {
 	        	// Loop through each SMS
 	            message = SmsMessage.createFromPdu((byte[]) pdus[i]);
 	            smsSource = message.getOriginatingAddress();
+	            uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(smsSource));
+	            projection = new String[] { ContactsContract.PhoneLookup.DISPLAY_NAME };
+	            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+	            boolean ignoreUnknowns = false;
+	            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+	            ignoreUnknowns = prefs.getBoolean(IGNORE_UNKNOWNS, ignoreUnknowns);
+	            if (cursor != null) {
+	                if (cursor.moveToFirst()) {
+	                	smsSource = cursor.getString(0);
+	                }
+		            else {
+		            	if (ignoreUnknowns) {
+		            		continue;
+		            	}
+		            }
+	                cursor.close();
+	            }
+	            else {
+	            	if (ignoreUnknowns) {
+	            		continue;
+	            	}
+	            }
 	            alarmTime = smsTS + 30 * 1000;
 
 	            // Set reminder alarm
