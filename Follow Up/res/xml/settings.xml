@@ -27,5 +27,9 @@
         android:key="sample_reminder"
         android:title="Sample reminder" 
         android:summary="Display a sample reminder."/>
-    
+
+	<PreferenceCategory 
+        android:key="messages_awaiting_reply"
+		android:title="Messages awaiting reply"/>
+
 </PreferenceScreen>

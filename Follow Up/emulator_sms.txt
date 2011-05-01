@@ -1,0 +1,2 @@
+telnet localhost 5554
+sms send +12223334444 Dinner tonight? East Village?

@@ -8,6 +8,7 @@
     <LinearLayout 
 	    android:orientation="horizontal"
 	    android:gravity="center_vertical"
+	    android:layout_marginTop="10dip"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
     >
@@ -35,7 +36,7 @@
     >
 	    <TextView
 	    	android:id="@+id/ignoreThisOneDescription"
-	    	android:text="If you do not need to reply to this particular message, you can ignore it."
+	    	android:text="If you do not want to reply to this particular message, you can ignore it."
 		    android:layout_weight="1"
 		    android:layout_marginRight="10dip"
 		    android:layout_width="wrap_content"
