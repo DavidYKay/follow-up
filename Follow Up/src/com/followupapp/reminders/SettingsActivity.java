@@ -7,7 +7,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.util.Log;
 
 public class SettingsActivity extends PreferenceActivity {
 
