@@ -91,7 +91,7 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	
 	private PendingIntent createPendingIntent(Context context, String smsSourceNumber, String smsSourceName, long smsTS) {
 		Intent alarmIntent = createAlarmIntent(context, smsSourceNumber, smsSourceName, smsTS);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, P_I_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, P_I_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		return pendingIntent;
 	}
 	
