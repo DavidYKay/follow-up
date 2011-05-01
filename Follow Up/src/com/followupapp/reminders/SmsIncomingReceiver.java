@@ -17,7 +17,7 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	private static final int P_I_REQUEST_CODE = 240;
 	public static final String SMS_RECEIVED_TIMESTAMP = "SMS_RECEIVED_TIMESTAMP";
 	public static final String SMS_SOURCE = "SMS_SOURCE";
-	private static final String IGNORE_UNKNOWNS = "IGNORE_UNKNOWNS";
+	private static final String IGNORE_UNKNOWNS = "contacts_only";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
