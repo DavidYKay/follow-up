@@ -36,7 +36,7 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 			String smsSourceNumber;
 			String smsSourceName = null;
 			long alarmTime;
-			long smsTS = System.currentTimeMillis();
+			long smsTS;
             Uri uri;
             String[] projection;
 
@@ -45,6 +45,7 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	        for (int i = 0; i < pdus.length; i++) {
 	        	// Loop through each SMS
 	            message = SmsMessage.createFromPdu((byte[]) pdus[i]);
+	            smsTS = System.currentTimeMillis();
 	            smsSourceNumber = message.getOriginatingAddress();
 	            uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(smsSourceNumber));
 	            projection = new String[] { ContactsContract.PhoneLookup.DISPLAY_NAME };
@@ -72,9 +73,13 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	            }
 	            alarmTime = smsTS + 15 * 1000;
 
-	            // Set reminder alarm
+	            // Set reminder alarm. Requirements:
+	            //     One alarm per phone number, offset from the last message received from that number.
+	            //     The intent delivered through the alarm must contain the latest data. Ensure no improper reuse.
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				PendingIntent pendingIntent = createPendingIntent(context, smsSourceNumber, smsSourceName, smsTS);
+		        alarmManager.cancel(pendingIntent);
+				pendingIntent = createPendingIntent(context, smsSourceNumber, smsSourceName, smsTS);
 		        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 		        Log.d("sms reply", "Set reminder. SMS source: " + smsSourceNumber + ". SMS reminder timestamp: " + smsTS);
 
@@ -91,7 +96,7 @@ public class SmsIncomingReceiver extends BroadcastReceiver {
 	
 	private PendingIntent createPendingIntent(Context context, String smsSourceNumber, String smsSourceName, long smsTS) {
 		Intent alarmIntent = createAlarmIntent(context, smsSourceNumber, smsSourceName, smsTS);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, P_I_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, P_I_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		return pendingIntent;
 	}
 	
