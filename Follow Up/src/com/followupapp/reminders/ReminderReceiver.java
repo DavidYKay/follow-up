@@ -35,6 +35,8 @@ public class ReminderReceiver extends BroadcastReceiver {
 		String from = "Follow up";
 		String message = "Reminder: reply to " + smsSourceName;
 		showNotification(context, positivePendingIntent, negativePendingIntent, tickerText, from, message, smsSourceNumber);
+		
+		//TODO: Schedule subsequent notification
 	}
 
     protected static void showNotification(Context context, PendingIntent positiveIntent, PendingIntent negativeIntent, 

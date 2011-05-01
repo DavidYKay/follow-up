@@ -26,6 +26,6 @@
     <Preference
         android:key="sample_reminder"
         android:title="Sample reminder" 
-        android:summary="Displays a sample reminder."/>
+        android:summary="Display a sample reminder."/>
     
 </PreferenceScreen>

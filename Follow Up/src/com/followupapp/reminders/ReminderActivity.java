@@ -19,7 +19,7 @@ public class ReminderActivity extends Activity {
         final String smsSourceName = getIntent().getStringExtra(SmsIncomingReceiver.SMS_SOURCE_NAME);
         
         TextView replyDescription = (TextView)findViewById(R.id.replyDescription);
-        replyDescription.setText("It looks like you haven't replied to the text message recently received from " + smsSourceName + ".");
+        replyDescription.setText("You have not replied to the text message recently received from " + smsSourceName + ".");
 
         Button replyButton = (Button)findViewById(R.id.replyButton);
         replyButton.setOnClickListener(new OnClickListener() {
@@ -27,6 +27,7 @@ public class ReminderActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + Uri.encode(smsSourceNumber)));
 				ReminderActivity.this.startActivity(intent);
+				//TODO: Remove subsequent alarms
 				finish();
 			}
         });
@@ -39,6 +40,7 @@ public class ReminderActivity extends Activity {
         ignoreFutureOnesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//TODO: Implement
 			}
         });
     }
