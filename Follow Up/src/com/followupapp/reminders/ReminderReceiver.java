@@ -29,6 +29,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 		negativeIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NUMBER, smsSourceNumber);
 		negativeIntent.putExtra(SmsIncomingReceiver.SMS_SOURCE_NAME, smsSourceName);
 //		PendingIntent negativePendingIntent = PendingIntent.getActivity(context, P_I_NOTIFICATION_CODE, negativeIntent, 0);
+		//TODO: Handle the 'Clear' button in the notification tray
 		PendingIntent negativePendingIntent = null;
 
 		String tickerText = "Reminder: reply to " + smsSourceName;

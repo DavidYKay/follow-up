@@ -33,7 +33,7 @@ public class ReminderActivity extends Activity {
         });
 
         TextView ignoreFutureOnesDescription = (TextView)findViewById(R.id.ignoreFutureOnesDescription);
-        ignoreFutureOnesDescription.setText("If you don't want to get any more reminders for text messages from " + smsSourceName + ", just ignore them.");
+        ignoreFutureOnesDescription.setText("If you don't want to get any more reminders for text messages from " + smsSourceName + ", you can ignore them.");
 
         Button ignoreFutureOnesButton = (Button)findViewById(R.id.ignoreFutureOnesButton);
         ignoreFutureOnesButton.setText("Ignore " + smsSourceName);
